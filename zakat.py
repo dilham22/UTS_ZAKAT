@@ -10,6 +10,18 @@ def create_connection():
         database="zakat" 
     )
 
+def add_zakat(nama, jenis_zakat, jumlah, tanggal):
+    conn = create_connection()
+    cursor = conn.cursor()
+    
+    query = "INSERT INTO zakat_data (nama, jenis_zakat, jumlah, tanggal) VALUES (%s, %s, %s, %s)"
+    cursor.execute(query, (nama, jenis_zakat, jumlah, tanggal))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
 def input_harga_beras():
     global harga_beras
     try:
@@ -61,7 +73,7 @@ def delete_zakat(id):
     cursor.close()
     conn.close()
 
- def add_beras(nama_beras, harga_per_kg):
+def add_beras(nama_beras, harga_per_kg):
     conn = create_connection()
     cursor = conn.cursor()
     
@@ -72,7 +84,7 @@ def delete_zakat(id):
     cursor.close()
     conn.close()
 
-    def view_master_beras():
+def view_master_beras():
     conn = create_connection()
     cursor = conn.cursor()
     
@@ -90,6 +102,7 @@ def add_transaksi_zakat(id_zakat, id_beras, jumlah_beras, tanggal):
     conn = create_connection()
     cursor = conn.cursor()
     
+    # Menghitung total harga beras
     query_beras = "SELECT harga_per_kg FROM master_beras WHERE id = %s"
     cursor.execute(query_beras, (id_beras,))
     harga_per_kg = cursor.fetchone()[0]
@@ -103,6 +116,7 @@ def add_transaksi_zakat(id_zakat, id_beras, jumlah_beras, tanggal):
     conn.commit()
     cursor.close()
     conn.close()
+
 
 def view_transaksi_zakat():
     conn = create_connection()
@@ -151,5 +165,4 @@ def main():
     
     export_to_excel()
 
-if _name_ == "_main_":
-    main()
+main()
