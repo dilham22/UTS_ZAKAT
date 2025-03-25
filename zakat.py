@@ -60,3 +60,14 @@ def delete_zakat(id):
     conn.commit()
     cursor.close()
     conn.close()
+
+ def add_beras(nama_beras, harga_per_kg):
+    conn = create_connection()
+    cursor = conn.cursor()
+    
+    query = "INSERT INTO master_beras (nama_beras, harga_per_kg) VALUES (%s, %s)"
+    cursor.execute(query, (nama_beras, harga_per_kg))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
