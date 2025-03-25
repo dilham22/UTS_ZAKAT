@@ -121,3 +121,35 @@ def view_transaksi_zakat():
     
     cursor.close()
     conn.close()
+
+def export_to_excel():
+    conn = create_connection()
+    query = "SELECT * FROM zakat_data"
+
+    zakat_data = pd.read_sql(query, conn)
+    
+    zakat_data.to_excel("data_zakat.xlsx", index=False)
+    
+    conn.close()
+    print("Data zakat berhasil diekspor ke dalam file 'data_zakat.xlsx'")
+
+def main():
+    add_zakat("Ahmad", "Zakat Fitrah", 500000, "2025-03-25")
+    add_zakat("Budi", "Zakat Mal", 2000000, "2025-03-26")
+    
+    add_beras("Beras Premium", 15000)
+    add_beras("Beras Medium", 12000)
+    
+    print("Master Data Beras:")
+    view_master_beras()
+    
+    add_transaksi_zakat(1, 1, 50, "2025-03-25") 
+    add_transaksi_zakat(1, 2, 30, "2025-03-26")  
+    
+    print("\nTransaksi Zakat:")
+    view_transaksi_zakat()
+    
+    export_to_excel()
+
+if _name_ == "_main_":
+    main()
