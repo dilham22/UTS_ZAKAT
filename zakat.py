@@ -49,3 +49,14 @@ def hitung_zakat():
             print("\nHarta Anda belum mencapai nisab, tidak wajib zakat.")
     except ValueError:
         print("Input harus berupa angka untuk harta dan anggota keluarga!")
+
+def delete_zakat(id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    
+    query = "DELETE FROM zakat_data WHERE id = %s"
+    cursor.execute(query, (id,))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
