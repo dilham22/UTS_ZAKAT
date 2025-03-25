@@ -106,3 +106,79 @@ def view_transaksi_zakat():
     
     cursor.close()
     conn.close()
+
+def export_to_excel():
+    conn = create_connection()
+    query = "SELECT * FROM zakat_data"
+    
+    # Mengambil data dari database
+    zakat_data = pd.read_sql(query, conn)
+    
+    # Mengekspor data ke dalam file Excel
+    zakat_data.to_excel("data_zakat.xlsx", index=False)
+    
+    conn.close()
+    print("Data zakat berhasil diekspor ke dalam file 'data_zakat.xlsx'")
+
+def main():
+    while True:
+        print("\nMenu:")
+        print("1. Tambah Data Zakat")
+        print("2. Edit Data Zakat")
+        print("3. Hapus Data Zakat")
+        print("4. Lihat Data Master Beras")
+        print("5. Tambah Transaksi Zakat")
+        print("6. Lihat Transaksi Zakat")
+        print("7. Ekspor Data Zakat ke Excel")
+        print("8. Keluar")
+        
+        choice = input("Pilih opsi (1-8): ")
+        
+        if choice == "1":
+            nama = input("Masukkan nama: ")
+            jenis_zakat = input("Masukkan jenis zakat: ")
+            jumlah = float(input("Masukkan jumlah zakat: "))
+            tanggal = input("Masukkan tanggal (YYYY-MM-DD): ")
+            add_zakat(nama, jenis_zakat, jumlah, tanggal)
+            print("Data zakat berhasil ditambahkan.")
+        
+        elif choice == "2":
+            id_zakat = int(input("Masukkan ID zakat yang ingin diubah: "))
+            nama = input("Masukkan nama baru: ")
+            jenis_zakat = input("Masukkan jenis zakat baru: ")
+            jumlah = float(input("Masukkan jumlah zakat baru: "))
+            tanggal = input("Masukkan tanggal baru (YYYY-MM-DD): ")
+            update_zakat(id_zakat, nama, jenis_zakat, jumlah, tanggal)
+            print("Data zakat berhasil diperbarui.")
+        
+        elif choice == "3":
+            id_zakat = int(input("Masukkan ID zakat yang ingin dihapus: "))
+            delete_zakat(id_zakat)
+            print("Data zakat berhasil dihapus.")
+        
+        elif choice == "4":
+            print("Master Data Beras:")
+            view_master_beras()
+        
+        elif choice == "5":
+            id_zakat = int(input("Masukkan ID zakat: "))
+            id_beras = int(input("Masukkan ID beras: "))
+            jumlah_beras = int(input("Masukkan jumlah beras (kg): "))
+            tanggal = input("Masukkan tanggal (YYYY-MM-DD): ")
+            add_transaksi_zakat(id_zakat, id_beras, jumlah_beras, tanggal)
+            print("Transaksi zakat berhasil ditambahkan.")
+        
+        elif choice == "6":
+            print("Transaksi Zakat:")
+            view_transaksi_zakat()
+        
+        elif choice == "7":
+            export_to_excel()
+        
+        elif choice == "8":
+            print("Keluar dari program.")
+            break
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
+
+main()
