@@ -21,3 +21,30 @@ def input_harga_beras():
             print("Harga harus lebih dari 0!")
     except ValueError:
         print("Input harus berupa angka!")
+
+def hitung_zakat():
+    nisab = 520 * harga_beras  # Nisab 520 kg beras
+    print(f"\nNisab zakat saat ini: Rp {nisab:,}")
+    
+    try:
+        nama = input("Nama Muzakki: ")
+        harta = int(input("Jumlah harta (Rp): "))
+        anggota = int(input("Jumlah anggota keluarga: "))
+        
+        if harta >= nisab:
+            zakat = harta * 0.025  # 2.5%
+            print(f"\nZakat yang harus dibayar: Rp {zakat:,}")
+            
+            # Tambahkan ke data
+            data_zakat.append({
+                "Nama": nama,
+                "Harta (Rp)": harta,
+                "Anggota Keluarga": anggota,
+                "Zakat (Rp)": zakat,
+                "Status": "Lunas"
+            })
+            print("Pembayaran zakat berhasil dicatat!")
+        else:
+            print("\nHarta Anda belum mencapai nisab, tidak wajib zakat.")
+    except ValueError:
+        print("Input harus berupa angka untuk harta dan anggota keluarga!")
